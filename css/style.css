@@ -696,6 +696,29 @@ header {
   text-align: center;
   padding: 2rem;
 }
+
+/* General link styling */
+a {
+  text-decoration: none; /* Often desirable to remove default underline */
+}
+
+/* Link State Order: L-V-H-A */
+a:link {
+  color: #79baff; /* Default (unvisited) link color */
+}
+
+a:visited {
+  color: #6610f2; /* Color for visited links */
+}
+
+a:hover {
+  color: #0056b3; /* Color when mouse is over the link */
+  text-decoration: underline; /* Optional: add underline on hover */
+}
+
+a:active {
+  color: #002752; /* Color when the link is being clicked */
+}
 .contact-info p {
   font-size: 1.25rem;
   margin-bottom: 1.8rem;
