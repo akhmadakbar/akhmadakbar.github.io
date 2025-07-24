@@ -683,6 +683,7 @@ header {
   cursor: pointer;
   transition: background var(--transition-speed),
     transform var(--transition-speed);
+  box-shadow: 0 0 10px var(--primary-color);
 }
 .dot.active {
   background: var(--primary-color);
