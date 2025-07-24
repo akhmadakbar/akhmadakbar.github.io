@@ -1,39 +1,687 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
   <head>
-    <script
-      src="https://unpkg.com/react@18/umd/react.development.js"
-      crossorigin
-    ></script>
-    <script
-      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
-      crossorigin
-    ></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <title>Hello World!</title>
-  </head>
-  <body>
-    <div id="root"></div>
-
-    <script type="text/babel">
-      function Hello() {
-        return (
-          <>
-            <h1 className="heading">Belajar React bareng WPU 🚀</h1>
-            <p
-              onClick={(e) => {
-                alert("ok!");
-              }}
-            >
-              Belajar React itu mudah dan menyenangkan
-            </p>
-          </>
-        );
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profil Frontend Developer Cantik & Dinamis</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Montserrat:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* CSS Variables untuk konsistensi */
+      :root {
+        --primary-color: #6a0dad; /* Ungu */
+        --secondary-color: #8a2be2; /* Biru Keunguan */
+        --accent-color: #ff69b4; /* Pink */
+        --text-color: #333;
+        --light-text-color: #f8f8f8;
+        --bg-light: #f4f7f6;
+        --bg-dark: #2c3e50;
+        --card-bg: #ffffff;
+        --border-radius: 12px;
+        --shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        --transition-speed: 0.3s ease;
       }
 
-      const container = document.getElementById("root");
-      const root = ReactDOM.createRoot(container);
-      root.render(<Hello />);
+      /* General Styling */
+      body {
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        padding: 0;
+        background: var(--bg-light);
+        color: var(--text-color);
+        line-height: 1.6;
+        overflow-x: hidden; /* Mencegah scroll horizontal yang tidak diinginkan */
+        background-image: linear-gradient(to right bottom, #f4f7f6, #e7f0ee);
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      /* Header */
+      header {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color) 0%,
+          var(--secondary-color) 100%
+        );
+        color: var(--light-text-color);
+        padding: 3rem 0;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        border-bottom-left-radius: 50% 20%;
+        border-bottom-right-radius: 50% 20%;
+      }
+
+      header::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.1) 10%,
+          transparent 70%
+        );
+        animation: moveGradient 15s infinite linear;
+        opacity: 0.5;
+      }
+
+      @keyframes moveGradient {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .profile-pic {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        border: 5px solid var(--accent-color);
+        object-fit: cover;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 0 0 8px rgba(255, 105, 180, 0.3);
+        transition: transform var(--transition-speed),
+          box-shadow var(--transition-speed);
+      }
+
+      .profile-pic:hover {
+        transform: scale(1.05) rotate(2deg);
+        box-shadow: 0 0 0 10px rgba(255, 105, 180, 0.5);
+      }
+
+      header h1 {
+        font-family: "Montserrat", sans-serif;
+        font-size: 3.5rem;
+        margin-bottom: 0.5rem;
+        letter-spacing: 1px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      header p {
+        font-size: 1.5rem;
+        font-weight: 300;
+        margin-top: 0;
+        opacity: 0.9;
+      }
+
+      /* Section Styling */
+      section {
+        background: var(--card-bg);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        margin-bottom: 2.5rem;
+        padding: 2.5rem;
+        opacity: 0; /* Untuk animasi fade-in */
+        transform: translateY(20px); /* Untuk animasi slide-up */
+        animation: fadeInSlideUp 0.8s forwards ease-out;
+      }
+
+      @keyframes fadeInSlideUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Delay animasi untuk setiap section */
+      section:nth-of-type(1) {
+        animation-delay: 0.2s;
+      }
+      section:nth-of-type(2) {
+        animation-delay: 0.4s;
+      }
+      section:nth-of-type(3) {
+        animation-delay: 0.6s;
+      }
+      section:nth-of-type(4) {
+        animation-delay: 0.8s;
+      }
+      section:nth-of-type(5) {
+        animation-delay: 1s;
+      }
+
+      section h2 {
+        font-family: "Montserrat", sans-serif;
+        font-size: 2.2rem;
+        color: var(--primary-color);
+        margin-bottom: 1.5rem;
+        text-align: center;
+        position: relative;
+        padding-bottom: 10px;
+      }
+
+      section h2::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 0;
+        width: 60px;
+        height: 4px;
+        background: var(--accent-color);
+        border-radius: 2px;
+      }
+
+      /* About Me */
+      .about-me p {
+        font-size: 1.1rem;
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      /* Skills */
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1.5rem;
+        justify-content: center;
+      }
+
+      .skill-item {
+        background: var(--bg-light);
+        border-radius: var(--border-radius);
+        padding: 1.2rem;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transition: transform var(--transition-speed),
+          box-shadow var(--transition-speed);
+      }
+
+      .skill-item:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .skill-item h3 {
+        font-size: 1.3rem;
+        margin-top: 0.5rem;
+        color: var(--secondary-color);
+      }
+
+      .skill-item ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .skill-item li {
+        font-size: 0.95rem;
+        margin-bottom: 0.3rem;
+        color: var(--text-color);
+      }
+
+      /* Portfolio */
+      .portfolio-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+
+      .portfolio-item {
+        background: var(--bg-light);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+        transition: transform var(--transition-speed),
+          box-shadow var(--transition-speed);
+      }
+
+      .portfolio-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+      }
+
+      .portfolio-item img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        display: block;
+      }
+
+      .portfolio-content {
+        padding: 1.5rem;
+      }
+
+      .portfolio-content h3 {
+        font-size: 1.6rem;
+        margin-top: 0;
+        margin-bottom: 0.8rem;
+        color: var(--primary-color);
+      }
+
+      .portfolio-content p {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .portfolio-item a {
+        display: inline-block;
+        background: var(--accent-color);
+        color: var(--light-text-color);
+        padding: 0.7rem 1.5rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background var(--transition-speed);
+      }
+
+      .portfolio-item a:hover {
+        background: #e65a9e; /* Warna pink lebih gelap */
+      }
+
+      /* Contact */
+      .contact-info {
+        text-align: center;
+      }
+
+      .contact-info p {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+      }
+
+      .contact-info a {
+        color: var(--secondary-color);
+        text-decoration: none;
+        font-weight: 600;
+        transition: color var(--transition-speed);
+      }
+
+      .contact-info a:hover {
+        color: var(--primary-color);
+        text-decoration: underline;
+      }
+
+      .social-links {
+        margin-top: 1.5rem;
+      }
+
+      .social-links a {
+        display: inline-block;
+        margin: 0 1rem;
+        color: var(--primary-color);
+        font-size: 2.5rem; /* Ukuran ikon */
+        transition: transform var(--transition-speed),
+          color var(--transition-speed);
+      }
+
+      .social-links a:hover {
+        transform: translateY(-5px) scale(1.1);
+        color: var(--accent-color);
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 2rem;
+        color: var(--light-text-color);
+        background: var(--bg-dark);
+        font-size: 0.9rem;
+        margin-top: 3rem;
+      }
+
+      /* Tombol Tema (Dark/Light Mode) */
+      .theme-toggle {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        background: var(--primary-color);
+        color: var(--light-text-color);
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: var(--shadow);
+        transition: background var(--transition-speed),
+          transform var(--transition-speed);
+        z-index: 1000;
+      }
+
+      .theme-toggle:hover {
+        background: var(--secondary-color);
+        transform: scale(1.1);
+      }
+
+      /* Dark Mode Styles */
+      body.dark-mode {
+        background: var(--bg-dark);
+        color: var(--light-text-color);
+        background-image: linear-gradient(to right bottom, #2c3e50, #1c2a38);
+      }
+
+      body.dark-mode section {
+        background: #34495e;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      }
+
+      body.dark-mode section h2 {
+        color: var(--accent-color);
+      }
+
+      body.dark-mode .skill-item,
+      body.dark-mode .portfolio-item {
+        background: #4a627d;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      body.dark-mode .skill-item h3,
+      body.dark-mode .portfolio-content h3 {
+        color: var(--light-text-color);
+      }
+
+      body.dark-mode .skill-item li,
+      body.dark-mode .portfolio-content p,
+      body.dark-mode .contact-info p {
+        color: #ccc;
+      }
+
+      body.dark-mode .contact-info a {
+        color: var(--accent-color);
+      }
+
+      body.dark-mode .social-links a {
+        color: var(--accent-color);
+      }
+
+      body.dark-mode .theme-toggle {
+        background: var(--accent-color);
+        color: var(--bg-dark);
+      }
+      body.dark-mode .theme-toggle:hover {
+        background: #e65a9e;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        header h1 {
+          font-size: 2.5rem;
+        }
+        header p {
+          font-size: 1.2rem;
+        }
+        section {
+          padding: 1.5rem;
+        }
+        section h2 {
+          font-size: 1.8rem;
+        }
+        .skills-grid,
+        .portfolio-grid {
+          grid-template-columns: 1fr;
+        }
+        .social-links a {
+          font-size: 2rem;
+          margin: 0 0.8rem;
+        }
+        .theme-toggle {
+          width: 45px;
+          height: 45px;
+          font-size: 1.3rem;
+          bottom: 1.5rem;
+          right: 1.5rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          padding: 1rem;
+        }
+        header h1 {
+          font-size: 2rem;
+        }
+        header p {
+          font-size: 1rem;
+        }
+        .profile-pic {
+          width: 120px;
+          height: 120px;
+        }
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <button
+      id="theme-toggle"
+      class="theme-toggle"
+      aria-label="Toggle dark mode"
+    >
+      <i class="fas fa-moon"></i>
+    </button>
+
+    <header>
+      <div class="container">
+        <img
+          src="https://media.licdn.com/dms/image/v2/C5603AQG-VeHSFaixxQ/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1602946261598?e=1756339200&v=beta&t=lxFdYA2NNFyQnoM-FWUI4DEbVaVajP33WpbnkXupzY4"
+          alt="Foto Profil"
+          class="profile-pic"
+        />
+        <h1>Akhmad Akbar</h1>
+        <p>
+          Seorang Front-End Developer yang menciptakan pengalaman web yang
+          memukau
+        </p>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="about-me">
+        <h2>Tentang Saya</h2>
+        <p>
+          Halo! Saya Akbar, seorang <strong>Front-End Developer</strong> dengan
+          passion besar untuk mengubah ide-ide kompleks menjadi antarmuka
+          pengguna yang indah dan fungsional. Saya percaya bahwa web harus
+          intuitif, responsif, dan menyenangkan untuk dijelajahi. Dengan
+          kombinasi keahlian teknis dan sentuhan desain yang kuat, saya
+          berkomitmen untuk menciptakan produk digital yang tidak hanya bekerja
+          dengan baik tetapi juga terlihat luar biasa. Mari berkreasi!
+        </p>
+      </section>
+
+      <section class="skills">
+        <h2>Keahlian</h2>
+        <div class="skills-grid">
+          <div class="skill-item">
+            <h3>Dasar Web</h3>
+            <ul>
+              <li>HTML5 (Semantic)</li>
+              <li>CSS3 (Flexbox, Grid)</li>
+              <li>JavaScript (ES6+)</li>
+            </ul>
+          </div>
+          <div class="skill-item">
+            <h3>Framework & Library</h3>
+            <ul>
+              <li>React.js</li>
+              <li>Next.js</li>
+              <li>Tailwind CSS</li>
+              <li>Bootstrap</li>
+            </ul>
+          </div>
+          <div class="skill-item">
+            <h3>State Management</h3>
+            <ul>
+              <li>Redux</li>
+              <li>Context API</li>
+              <li>Zustand</li>
+            </ul>
+          </div>
+          <div class="skill-item">
+            <h3>Tools & Lain-lain</h3>
+            <ul>
+              <li>Git & GitHub</li>
+              <li>Webpack & Vite</li>
+              <li>Figma (Basic)</li>
+              <li>Responsive Design</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="portfolio">
+        <h2>Portofolio</h2>
+        <div class="portfolio-grid">
+          <div class="portfolio-item">
+            <img
+              src="https://placehold.co/400x200.png"
+              alt="Proyek Portofolio 1"
+            />
+            <div class="portfolio-content">
+              <h3>E-commerce Modern</h3>
+              <p>
+                Platform belanja online responsif dengan fitur keranjang dan
+                checkout yang mulus.
+              </p>
+              <a href="#link-ke-proyek-1" target="_blank">Lihat Proyek</a>
+            </div>
+          </div>
+          <div class="portfolio-item">
+            <img
+              src="https://placehold.co/400x200.png"
+              alt="Proyek Portofolio 2"
+            />
+            <div class="portfolio-content">
+              <h3>Dashboard Analitik Interaktif</h3>
+              <p>Dashboard data visualisasi menggunakan React dan Chart.js.</p>
+              <a href="#link-ke-proyek-2" target="_blank">Lihat Proyek</a>
+            </div>
+          </div>
+          <div class="portfolio-item">
+            <img
+              src="https://placehold.co/400x200.png"
+              alt="Proyek Portofolio 3"
+            />
+            <div class="portfolio-content">
+              <h3>Website Portofolio Fotografi</h3>
+              <p>Situs portofolio pribadi dengan galeri gambar yang dinamis.</p>
+              <a href="#link-ke-proyek-3" target="_blank">Lihat Proyek</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="contact">
+        <h2>Hubungi Saya</h2>
+        <div class="contact-info">
+          <p>
+            Tertarik untuk berkolaborasi atau sekadar menyapa? Jangan ragu untuk
+            menghubungi saya!
+          </p>
+          <p>
+            Email:
+            <a href="mailto:akhmad.akbar@gmail.com">akhmad.akbar@email.com</a>
+          </p>
+          <p>Telepon: <a href="tel:+628111115468">+62 811-1111-5468</a></p>
+          <div class="social-links">
+            <a
+              href="https://github.com/akhmadakbar"
+              target="_blank"
+              aria-label="GitHub"
+              ><i class="fab fa-github"></i
+            ></a>
+            <a
+              href="https://linkedin.com/in/akhmadakbar"
+              target="_blank"
+              aria-label="LinkedIn"
+              ><i class="fab fa-linkedin"></i
+            ></a>
+            <a
+              href="https://twitter.com/kang_akbar"
+              target="_blank"
+              aria-label="Twitter"
+              ><i class="fab fa-twitter"></i
+            ></a>
+            <a
+              href="https://instagram.com/akhmd.akbar"
+              target="_blank"
+              aria-label="Instagram"
+              ><i class="fab fa-instagram"></i
+            ></a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Akhmad Akbar. Hak Cipta Dilindungi Undang-Undang.</p>
+    </footer>
+
+    <script>
+      // JavaScript untuk Theme Toggle (Dark/Light Mode)
+      const themeToggleBtn = document.getElementById("theme-toggle");
+      const body = document.body;
+
+      // Cek preferensi tema dari localStorage
+      const currentTheme = localStorage.getItem("theme");
+      if (currentTheme) {
+        body.classList.add(currentTheme);
+        if (currentTheme === "dark-mode") {
+          themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+      }
+
+      themeToggleBtn.addEventListener("click", () => {
+        if (body.classList.contains("dark-mode")) {
+          body.classList.remove("dark-mode");
+          localStorage.setItem("theme", "light-mode");
+          themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
+        } else {
+          body.classList.add("dark-mode");
+          localStorage.setItem("theme", "dark-mode");
+          themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+      });
+
+      // JavaScript untuk animasi scroll-in (opsional, sudah di handle dengan CSS animation-delay)
+      // Jika ingin menambahkan observer untuk performa lebih baik:
+      const sections = document.querySelectorAll("section");
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = "1";
+              entry.target.style.transform = "translateY(0)";
+              entry.target.style.transition =
+                "opacity 0.8s ease-out, transform 0.8s ease-out";
+              observer.unobserve(entry.target); // Berhenti mengamati setelah animasi
+            }
+          });
+        },
+        {
+          threshold: 0.1, // Trigger saat 10% dari section terlihat
+          rootMargin: "0px 0px -50px 0px", // Mulai sedikit lebih awal
+        }
+      );
+
+      sections.forEach((section) => {
+        section.style.opacity = "0";
+        section.style.transform = "translateY(20px)";
+        observer.observe(section);
+      });
     </script>
   </body>
 </html>
