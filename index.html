@@ -1,1 +1,40 @@
-Hello World
+<!DOCTYPE html>
+<html>
+  <head>
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <title>Hello World!</title>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      function Hello() {
+        return (
+          <>
+            <h1 className="heading">Belajar React bareng WPU 🚀</h1>
+            <img src="img/gf-logo.png" width="80" alt="MyImage" />
+            <p
+              onClick={(e) => {
+                alert("ok!");
+              }}
+            >
+              Belajar React itu mudah dan menyenangkan
+            </p>
+          </>
+        );
+      }
+
+      const container = document.getElementById("root");
+      const root = ReactDOM.createRoot(container);
+      root.render(<Hello />);
+    </script>
+  </body>
+</html>
