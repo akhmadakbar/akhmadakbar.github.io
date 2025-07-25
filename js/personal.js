@@ -2,9 +2,9 @@
 const projects = [
   {
     id: 1,
-    title: "SaaS Dashboard Analitik Tingkat Lanjut",
+    title: "Advanced SaaS Analytics Dashboard",
     description:
-      "Platform analitik kompleks yang memungkinkan pengguna memvisualisasikan data interaktif, mengkustomisasi widget, dan mengintegrasikan sumber data real-time. Dibangun dengan fokus pada performa tinggi dan pengalaman pengguna yang responsif. **Teknologi:** React, D3.js, GraphQL, Node.js.",
+      "A complex analytics platform enabling users to visualize interactive data, customize widgets, and integrate real-time data sources. Built with a focus on high performance and a responsive user experience. **Technologies:** React, D3.js, GraphQL, Node.js.",
     image:
       "https://images.unsplash.com/photo-1555066931-43654100427a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
     liveDemo: "https://demo.example.com/saas-dashboard",
@@ -13,9 +13,9 @@ const projects = [
   },
   {
     id: 2,
-    title: "Platform E-commerce dengan Personalization AI",
+    title: "E-commerce Platform with AI Personalization",
     description:
-      "Toko online modern yang memanfaatkan kecerdasan buatan untuk rekomendasi produk yang dipersonalisasi, pencarian faceted yang cepat, dan alur checkout yang mulus. Dioptimalkan untuk SEO dan kecepatan loading. **Teknologi:** Next.js, Sanity.io (CMS), Stripe (Payments), Redux.",
+      "A modern online store leveraging artificial intelligence for personalized product recommendations, fast faceted search, and a seamless checkout flow. Optimized for SEO and loading speed. **Technologies:** Next.js, Sanity.io (CMS), Stripe (Payments), Redux.",
     image:
       "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
     liveDemo: "https://demo.example.com/ecommerce-ai",
@@ -24,9 +24,9 @@ const projects = [
   },
   {
     id: 3,
-    title: "Aplikasi Mobile Hybrid dengan Pengalaman Native",
+    title: "Hybrid Mobile Application with Native Experience",
     description:
-      "Pengembangan aplikasi mobile lintas platform (iOS & Android) yang memberikan performa dan tampilan layaknya aplikasi native, dengan integrasi API kompleks dan notifikasi push. **Teknologi:** React Native, Firebase, Expo.",
+      "Cross-platform mobile application development (iOS & Android) delivering native-like performance and appearance, with complex API integrations and push notifications. **Technologies:** React Native, Firebase, Expo.",
     image:
       "https://images.unsplash.com/photo-1580894726038-1c5ac1c68a16?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80",
     liveDemo: "https://demo.example.com/mobile-app", // Placeholder
@@ -35,9 +35,9 @@ const projects = [
   },
   {
     id: 4,
-    title: "CRM Solusi Kustom",
+    title: "Custom CRM Solution",
     description:
-      "Sistem Customer Relationship Management (CRM) yang dapat disesuaikan untuk mengelola prospek, klien, dan interaksi penjualan secara efisien. Dilengkapi dengan dasbor analitik dan fitur pelaporan. **Teknologi:** React, Material-UI, Express.js, MongoDB.",
+      "A customizable Customer Relationship Management (CRM) system for efficient management of leads, clients, and sales interactions. Equipped with analytics dashboards and reporting features. **Technologies:** React, Material-UI, Express.js, MongoDB.",
     image:
       "https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80",
     liveDemo: "https://demo.example.com/custom-crm",
@@ -46,9 +46,9 @@ const projects = [
   },
   {
     id: 5,
-    title: "Platform Edukasi Interaktif",
+    title: "Interactive Education Platform",
     description:
-      "Platform e-learning yang menawarkan kursus interaktif, kuis dinamis, materi multimedia, dan pelacakan kemajuan siswa. Desain yang responsif untuk berbagai perangkat. **Teknologi:** Vue.js, Vuex, Firebase Functions, SCSS.",
+      "An e-learning platform offering interactive courses, dynamic quizzes, multimedia materials, and student progress tracking. Responsive design for various devices. **Technologies:** Vue.js, Vuex, Firebase Functions, SCSS.",
     image:
       "https://images.unsplash.com/photo-1549692520-cb9e54a5c9a4?ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80",
     liveDemo: "https://demo.example.com/edu-platform",
@@ -320,13 +320,23 @@ window.addEventListener("click", (e) => {
 const carouselTrack = document.querySelector(".carousel-track");
 const dotsContainer = document.querySelector(".carousel-dots");
 const testimonialCards = document.querySelectorAll(".testimonial-card");
+const prevBtn = document.querySelector(".prev-btn"); // New: Get previous button
+const nextBtn = document.querySelector(".next-btn"); // New: Get next button
+
 let currentCarouselIndex = 0;
 let autoAdvanceInterval;
 
 function updateCarousel() {
+  // Recalculate cardWidth dynamically to account for margins
+  // Ensure testimonialCards[0] exists before accessing its properties
+  if (!testimonialCards || testimonialCards.length === 0) return;
+
+  const cardStyle = getComputedStyle(testimonialCards[0]);
   const cardWidth =
     testimonialCards[0].offsetWidth +
-    parseFloat(getComputedStyle(testimonialCards[0]).marginRight) * 2; // Include margin
+    parseFloat(cardStyle.marginLeft) +
+    parseFloat(cardStyle.marginRight);
+
   carouselTrack.style.transform = `translateX(-${
     currentCarouselIndex * cardWidth
   }px)`;
@@ -336,13 +346,32 @@ function updateCarousel() {
   });
 }
 
+// Handler for dot clicks
 dotsContainer.addEventListener("click", (e) => {
   if (e.target.classList.contains("dot")) {
     currentCarouselIndex = parseInt(e.target.dataset.index);
     updateCarousel();
     stopAutoAdvance(); // Stop auto-advance on manual interaction
-    startAutoAdvance(); // Restart after a delay (optional)
+    startAutoAdvance(); // Restart after a delay
   }
+});
+
+// New: Handler for Previous button click
+prevBtn.addEventListener("click", () => {
+  currentCarouselIndex =
+    (currentCarouselIndex - 1 + testimonialCards.length) %
+    testimonialCards.length;
+  updateCarousel();
+  stopAutoAdvance();
+  startAutoAdvance();
+});
+
+// New: Handler for Next button click
+nextBtn.addEventListener("click", () => {
+  currentCarouselIndex = (currentCarouselIndex + 1) % testimonialCards.length;
+  updateCarousel();
+  stopAutoAdvance();
+  startAutoAdvance();
 });
 
 const startAutoAdvance = () => {
@@ -364,21 +393,29 @@ testimonialsSection.addEventListener("mouseleave", startAutoAdvance);
 
 // Initial setup and start auto-advance
 window.addEventListener("resize", updateCarousel);
-updateCarousel();
-startAutoAdvance();
+// Ensure updateCarousel is called after all elements are rendered
+document.addEventListener("DOMContentLoaded", () => {
+  updateCarousel();
+  startAutoAdvance();
+});
+// Fallback for immediate execution if DOMContentLoaded already fired
+if (document.readyState === "complete") {
+  updateCarousel();
+  startAutoAdvance();
+}
 
 // --- CONTACT FORM VALIDATION (Real-time) ---
 const contactForm = document.getElementById("contact-form");
 const nameInput = document.getElementById("name");
 const emailInput = document.getElementById("email");
 const messageInput = document.getElementById("message");
-const nameError = document.getElementById("name-error"); // Dapatkan referensi error message
-const emailError = document.getElementById("email-error"); // Dapatkan referensi error message
-const messageError = document.getElementById("message-error"); // Dapatkan referensi error message
-const formStatus = document.getElementById("my-form-status"); // Dapatkan referensi status pesan
+const nameError = document.getElementById("name-error"); // Get error message reference
+const emailError = document.getElementById("email-error"); // Get error message reference
+const messageError = document.getElementById("message-error"); // Get error message reference
+const formStatus = document.getElementById("my-form-status"); // Get status message reference
 
-// Durasi pesan status ditampilkan (dalam milidetik)
-const MESSAGE_DISPLAY_DURATION = 5000; // 5 detik
+// Duration for status message display (in milliseconds)
+const MESSAGE_DISPLAY_DURATION = 5000; // 5 seconds
 
 const validateField = (
   inputElement,
@@ -390,51 +427,51 @@ const validateField = (
     if (validationFn(inputElement.value)) {
       inputElement.classList.remove("invalid");
       errorMessageElement.style.display = "none";
-      errorMessageElement.textContent = ""; // Kosongkan pesan error
+      errorMessageElement.textContent = ""; // Clear error message
     } else {
       inputElement.classList.add("invalid");
       errorMessageElement.style.display = "block";
-      errorMessageElement.textContent = errorMessage; // Set pesan error
+      errorMessageElement.textContent = errorMessage; // Set error message
     }
   });
 };
 
-const isValidName = (name) => name.trim().length >= 3; // Minimal 3 karakter
+const isValidName = (name) => name.trim().length >= 3; // Minimum 3 characters
 const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-const isValidMessage = (message) => message.trim().length >= 10; // Minimal 10 karakter
+const isValidMessage = (message) => message.trim().length >= 10; // Minimum 10 characters
 
-validateField(nameInput, nameError, isValidName, "Nama minimal 3 karakter.");
 validateField(
-  emailInput,
-  emailError,
-  isValidEmail,
-  "Format email tidak valid."
+  nameInput,
+  nameError,
+  isValidName,
+  "Name must be at least 3 characters."
 );
+validateField(emailInput, emailError, isValidEmail, "Invalid email format.");
 validateField(
   messageInput,
   messageError,
   isValidMessage,
-  "Pesan minimal 10 karakter."
+  "Message must be at least 10 characters."
 );
 
-// Event Listener Utama untuk Pengiriman Formulir
+// Main Event Listener for Form Submission
 contactForm.addEventListener("submit", async (e) => {
-  e.preventDefault(); // Mencegah pengiriman form default
+  e.preventDefault(); // Prevent default form submission
 
-  // Reset status pesan
+  // Reset status message
   formStatus.textContent = "";
-  formStatus.style.color = "initial"; // Reset warna teks
+  formStatus.style.color = "initial"; // Reset text color
 
-  // Lakukan validasi akhir saat submit
+  // Perform final validation on submit
   const isNameValid = isValidName(nameInput.value);
   const isEmailValid = isValidEmail(emailInput.value);
   const isMessageValid = isValidMessage(messageInput.value);
 
-  // Tampilkan pesan error jika tidak valid
+  // Display error messages if invalid
   if (!isNameValid) {
     nameInput.classList.add("invalid");
     nameError.style.display = "block";
-    nameError.textContent = "Nama minimal 3 karakter.";
+    nameError.textContent = "Name must be at least 3 characters.";
   } else {
     nameInput.classList.remove("invalid");
     nameError.style.display = "none";
@@ -443,7 +480,7 @@ contactForm.addEventListener("submit", async (e) => {
   if (!isEmailValid) {
     emailInput.classList.add("invalid");
     emailError.style.display = "block";
-    emailError.textContent = "Format email tidak valid.";
+    emailError.textContent = "Invalid email format.";
   } else {
     emailInput.classList.remove("invalid");
     emailError.style.display = "none";
@@ -452,22 +489,22 @@ contactForm.addEventListener("submit", async (e) => {
   if (!isMessageValid) {
     messageInput.classList.add("invalid");
     messageError.style.display = "block";
-    messageError.textContent = "Pesan minimal 10 karakter.";
+    messageError.textContent = "Message must be at least 10 characters.";
   } else {
     messageInput.classList.remove("invalid");
     messageError.style.display = "none";
   }
 
-  // Jika semua validasi berhasil, kirim email
+  // If all validations pass, send the email
   if (isNameValid && isEmailValid && isMessageValid) {
-    formStatus.textContent = "Mengirim pesan ...";
+    formStatus.textContent = "Sending message...";
     formStatus.style.color = "gray";
 
     const formData = new FormData(contactForm);
     try {
       const response = await fetch(e.target.action, {
-        // Gunakan e.target.action
-        method: contactForm.method, // Gunakan contactForm.method
+        // Use e.target.action
+        method: contactForm.method, // Use contactForm.method
         body: formData,
         headers: {
           Accept: "application/json",
@@ -475,18 +512,18 @@ contactForm.addEventListener("submit", async (e) => {
       });
 
       if (response.ok) {
-        formStatus.textContent = "Terima kasih atas pesan Anda!";
+        formStatus.textContent = "Thank you for your message!";
         formStatus.style.color = "green";
-        contactForm.reset(); // Mengosongkan form
-        // Opsional: sembunyikan semua pesan error setelah berhasil
+        contactForm.reset(); // Clear the form
+        // Optional: hide all error messages after successful submission
         document
           .querySelectorAll(".error-message")
           .forEach((el) => (el.style.display = "none"));
 
-        // --- Tambahan untuk menghilangkan pesan status setelah beberapa detik ---
+        // --- Additional: Hide status message after a few seconds ---
         setTimeout(() => {
-          formStatus.textContent = ""; // Mengosongkan teks
-          formStatus.style.color = "initial"; // Mengembalikan warna ke default
+          formStatus.textContent = ""; // Clear text
+          formStatus.style.color = "initial"; // Reset color to default
         }, MESSAGE_DISPLAY_DURATION);
       } else {
         const data = await response.json();
@@ -496,11 +533,11 @@ contactForm.addEventListener("submit", async (e) => {
             .join(", ");
         } else {
           formStatus.textContent =
-            "Ups! Ada masalah saat mengirim formulir Anda.";
+            "Oops! There was a problem submitting your form.";
         }
         formStatus.style.color = "red";
 
-        // --- Tambahan untuk menghilangkan pesan status setelah beberapa detik ---
+        // --- Additional: Hide status message after a few seconds ---
         setTimeout(() => {
           formStatus.textContent = "";
           formStatus.style.color = "initial";
@@ -509,20 +546,20 @@ contactForm.addEventListener("submit", async (e) => {
     } catch (error) {
       console.error("Error:", error);
       formStatus.textContent =
-        "Ups! Ada masalah saat mengirim formulir Anda (jaringan/server).";
+        "Oops! There was a problem submitting your form (network/server).";
       formStatus.style.color = "red";
 
-      // --- Tambahan untuk menghilangkan pesan status setelah beberapa detik ---
+      // --- Additional: Hide status message after a few seconds ---
       setTimeout(() => {
         formStatus.textContent = "";
         formStatus.style.color = "initial";
       }, MESSAGE_DISPLAY_DURATION);
     }
   } else {
-    formStatus.textContent = "Mohon lengkapi formulir dengan benar.";
+    formStatus.textContent = "Please complete the form correctly.";
     formStatus.style.color = "red";
 
-    // --- Tambahan untuk menghilangkan pesan status setelah beberapa detik ---
+    // --- Additional: Hide status message after a few seconds ---
     setTimeout(() => {
       formStatus.textContent = "";
       formStatus.style.color = "initial";
