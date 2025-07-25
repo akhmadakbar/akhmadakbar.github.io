@@ -372,61 +372,161 @@ const contactForm = document.getElementById("contact-form");
 const nameInput = document.getElementById("name");
 const emailInput = document.getElementById("email");
 const messageInput = document.getElementById("message");
+const nameError = document.getElementById("name-error"); // Dapatkan referensi error message
+const emailError = document.getElementById("email-error"); // Dapatkan referensi error message
+const messageError = document.getElementById("message-error"); // Dapatkan referensi error message
+const formStatus = document.getElementById("my-form-status"); // Dapatkan referensi status pesan
 
-const validateField = (inputElement, errorMessageElement, validationFn) => {
+// Durasi pesan status ditampilkan (dalam milidetik)
+const MESSAGE_DISPLAY_DURATION = 5000; // 5 detik
+
+const validateField = (
+  inputElement,
+  errorMessageElement,
+  validationFn,
+  errorMessage
+) => {
   inputElement.addEventListener("input", () => {
     if (validationFn(inputElement.value)) {
       inputElement.classList.remove("invalid");
       errorMessageElement.style.display = "none";
+      errorMessageElement.textContent = ""; // Kosongkan pesan error
     } else {
       inputElement.classList.add("invalid");
       errorMessageElement.style.display = "block";
+      errorMessageElement.textContent = errorMessage; // Set pesan error
     }
   });
 };
 
-const isValidName = (name) => name.trim().length > 2;
+const isValidName = (name) => name.trim().length >= 3; // Minimal 3 karakter
 const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-const isValidMessage = (message) => message.trim().length > 10;
+const isValidMessage = (message) => message.trim().length >= 10; // Minimal 10 karakter
 
-validateField(nameInput, document.getElementById("name-error"), isValidName);
-validateField(emailInput, document.getElementById("email-error"), isValidEmail);
+validateField(nameInput, nameError, isValidName, "Nama minimal 3 karakter.");
+validateField(
+  emailInput,
+  emailError,
+  isValidEmail,
+  "Format email tidak valid."
+);
 validateField(
   messageInput,
-  document.getElementById("message-error"),
-  isValidMessage
+  messageError,
+  isValidMessage,
+  "Pesan minimal 10 karakter."
 );
 
-// Set custom error messages
-document.getElementById("name-error").textContent = "Nama minimal 3 karakter.";
-document.getElementById("email-error").textContent =
-  "Format email tidak valid.";
-document.getElementById("message-error").textContent =
-  "Pesan minimal 10 karakter.";
+// Event Listener Utama untuk Pengiriman Formulir
+contactForm.addEventListener("submit", async (e) => {
+  e.preventDefault(); // Mencegah pengiriman form default
 
-contactForm.addEventListener("submit", (e) => {
-  e.preventDefault(); // Prevent default form submission
+  // Reset status pesan
+  formStatus.textContent = "";
+  formStatus.style.color = "initial"; // Reset warna teks
 
+  // Lakukan validasi akhir saat submit
   const isNameValid = isValidName(nameInput.value);
   const isEmailValid = isValidEmail(emailInput.value);
   const isMessageValid = isValidMessage(messageInput.value);
 
-  if (!isNameValid) nameInput.classList.add("invalid");
-  else nameInput.classList.remove("invalid");
-  if (!isEmailValid) emailInput.classList.add("invalid");
-  else emailInput.classList.remove("invalid");
-  if (!isMessageValid) messageInput.classList.add("invalid");
-  else messageInput.classList.remove("invalid");
-
-  if (isNameValid && isEmailValid && isMessageValid) {
-    alert("Pesan Anda telah terkirim! (Simulasi)");
-    contactForm.reset();
-    // Optionally, hide error messages after successful submission
-    document
-      .querySelectorAll(".error-message")
-      .forEach((el) => (el.style.display = "none"));
+  // Tampilkan pesan error jika tidak valid
+  if (!isNameValid) {
+    nameInput.classList.add("invalid");
+    nameError.style.display = "block";
+    nameError.textContent = "Nama minimal 3 karakter.";
   } else {
-    alert("Mohon lengkapi formulir dengan benar.");
+    nameInput.classList.remove("invalid");
+    nameError.style.display = "none";
+  }
+
+  if (!isEmailValid) {
+    emailInput.classList.add("invalid");
+    emailError.style.display = "block";
+    emailError.textContent = "Format email tidak valid.";
+  } else {
+    emailInput.classList.remove("invalid");
+    emailError.style.display = "none";
+  }
+
+  if (!isMessageValid) {
+    messageInput.classList.add("invalid");
+    messageError.style.display = "block";
+    messageError.textContent = "Pesan minimal 10 karakter.";
+  } else {
+    messageInput.classList.remove("invalid");
+    messageError.style.display = "none";
+  }
+
+  // Jika semua validasi berhasil, kirim email
+  if (isNameValid && isEmailValid && isMessageValid) {
+    formStatus.textContent = "Mengirim pesan ...";
+    formStatus.style.color = "gray";
+
+    const formData = new FormData(contactForm);
+    try {
+      const response = await fetch(e.target.action, {
+        // Gunakan e.target.action
+        method: contactForm.method, // Gunakan contactForm.method
+        body: formData,
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      if (response.ok) {
+        formStatus.textContent = "Terima kasih atas pesan Anda!";
+        formStatus.style.color = "green";
+        contactForm.reset(); // Mengosongkan form
+        // Opsional: sembunyikan semua pesan error setelah berhasil
+        document
+          .querySelectorAll(".error-message")
+          .forEach((el) => (el.style.display = "none"));
+
+        // --- Tambahan untuk menghilangkan pesan status setelah beberapa detik ---
+        setTimeout(() => {
+          formStatus.textContent = ""; // Mengosongkan teks
+          formStatus.style.color = "initial"; // Mengembalikan warna ke default
+        }, MESSAGE_DISPLAY_DURATION);
+      } else {
+        const data = await response.json();
+        if (Object.hasOwn(data, "errors")) {
+          formStatus.textContent = data["errors"]
+            .map((error) => error["message"])
+            .join(", ");
+        } else {
+          formStatus.textContent =
+            "Ups! Ada masalah saat mengirim formulir Anda.";
+        }
+        formStatus.style.color = "red";
+
+        // --- Tambahan untuk menghilangkan pesan status setelah beberapa detik ---
+        setTimeout(() => {
+          formStatus.textContent = "";
+          formStatus.style.color = "initial";
+        }, MESSAGE_DISPLAY_DURATION);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      formStatus.textContent =
+        "Ups! Ada masalah saat mengirim formulir Anda (jaringan/server).";
+      formStatus.style.color = "red";
+
+      // --- Tambahan untuk menghilangkan pesan status setelah beberapa detik ---
+      setTimeout(() => {
+        formStatus.textContent = "";
+        formStatus.style.color = "initial";
+      }, MESSAGE_DISPLAY_DURATION);
+    }
+  } else {
+    formStatus.textContent = "Mohon lengkapi formulir dengan benar.";
+    formStatus.style.color = "red";
+
+    // --- Tambahan untuk menghilangkan pesan status setelah beberapa detik ---
+    setTimeout(() => {
+      formStatus.textContent = "";
+      formStatus.style.color = "initial";
+    }, MESSAGE_DISPLAY_DURATION);
   }
 });
 
