@@ -636,7 +636,7 @@ header {
 
 /* Testimonials Carousel with 3D effect */
 .testimonials {
-  padding: 4rem 0;
+  padding: 0rem 0;
   position: relative; /* Stays here for button positioning */
   /* Ensure NO fixed height here, or if there is, make it auto or min-height */
   /* Remove or review overflow property if it's cutting off the dots */
@@ -765,7 +765,7 @@ header {
 /* Contact Section with Form Validation */
 .contact-content {
   text-align: center;
-  padding: 2rem;
+  padding: -2;
 }
 
 /* General link styling */
