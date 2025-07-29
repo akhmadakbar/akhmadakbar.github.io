@@ -269,6 +269,7 @@ filterButtons.forEach((button) => {
 });
 
 // Portfolio Modal Logic
+// const portfolioGrid = document.querySelector(".portfolio-grid");
 const portfolioModal = document.getElementById("portfolio-modal");
 const modalCloseBtn = portfolioModal.querySelector(".modal-close-btn");
 const modalTitle = document.getElementById("modal-title");
